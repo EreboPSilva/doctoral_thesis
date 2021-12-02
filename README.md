@@ -4,6 +4,8 @@ A repository for my doctoral thesis dissertation, discused and defended on Octob
 
 Besides the pdf, the complete set of tex (and related) files needed for its compilation is included.
 
+---
+
 Compilation steps:
 
 1. `pdflatex jose_g_perez_silva_thesis.tex`
