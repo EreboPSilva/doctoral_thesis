@@ -1,0 +1,323 @@
+\section{Molecular biology methods} \label{s_matmet_molecular}
+
+\subsection{Data collection} \label{ss_matmet_molecular_data_colection}
+
+\subsubsection*{Sperm whale} 
+
+Tissue samples were obtained from an adult female specimen found in the northern Gulf of Mexico.
+DNA was then extracted with the DNAeasy kit from Quiagen, according to the manufacturer's protocol. 
+RNA samples were collected from skin tissues (n=5) also from other specimens at the Gulf of Mexico using Trizol reagent (Invitrogen) according to the manufacturer specifications.
+RNA quality was assessed by electrophoresis using an Agilent 2100 Bioanalyzer (Santa Rosa, CA).
+Additional samples from four different individuals were extracted from \quotes{Voyage of the \textsl{Odyssey} samples} using a high-salt procedure \cite{Godard2003}.
+The gender of each specimen was determined based on amplification by PCR of the \textit{SRY} gene \cite{Richard1994}.
+
+\subsubsection*{Gal\'{a}pagos giant tortoise}
+
+Both DNA and RNA samples from \textit{C. abingdonii} were recovered from a frozen sample of blood belonging to Lonesome George.
+In parallel, we obtained samples of a granulome in an individual of \textit{A. gigantea} from which we extracted DNA and RNA. % Está apuntado en la libreta de Olaya...
+Samples for PCR and Sanger sequencing were obtained from an array of samples provided by Yale University.
+
+\subsection{Genome sequencing} \label{ss_matmet_molecular_genome_sequencing}
+
+\subsubsection*{Sperm whale}
+
+Library collections for genome assembly consisted of paired-end (200 bp), and mate-pair libraries (insert sizes: 3, 8, and 40 kbp). All libraries were sequenced using paired 100 bp reads on an \textsl{Illumina HiSeq2000} ultrasequencer.
+Additional samples were sequenced to medium depth (~20-30X) by sequencing paired-end short insert libraries (~300bp) to 125bp length on an \textsl{Illumina Hi-Seq X10} instrument.
+All RNAseq data are available through the NCBI SRA, under BioProject number \href{https://www.ncbi.nlm.nih.gov/bioproject/177694}{PRJNA177694}%(\href{https://www.ncbi.nlm.nih.gov/bioproject/PRJNA177694}{www.ncbi.nlm.nih.gov/bioproject/PRJNA177694}).
+.
+
+\subsubsection*{Gal\'{a}pagos giant tortoises}
+
+Library collections built for sequencing on the \textsl{Illumina Hi-Seq 2000} platform, from a 180 bp-insert paired-end library, a 5 kb-insert mate-pair library and a 20 kb-insert mate-pair library.
+Additionally, reads from 18 PacBio SMRT\textsuperscript{TM} cells were used to extend the contigs.
+For the DNA sample from Aldabra tortoise we used Illumina technology and a 180 bp paired-end library to obtain whole-genome data.
+All the reads are available under BioProject number \href{https://www.ncbi.nlm.nih.gov/bioproject/416050}{PRJNA416050}%(\href{https://www.ncbi.nlm.nih.gov/bioproject/416050}{www.ncbi.nlm.nih.gov/bioproject/416050}).
+.
+
+\subsection{RNA sequencing} \label{ss_matmet_molecular_rna_sequencing}
+
+\subsubsection*{Sperm whale}
+
+RNAseq paired-end data (100 bp length) were generated from Illumina TruSeq cDNA (stranded) libraries using the Hi-Seq 2000 instrument. %Tissues? Alignment software?: Lo que sabemos de los tejidos está en data collection, lo del alineamiento que sabemos en la parte de alineamiento... Si no está ahí es que el paper no lo dice...
+All RNAseq data are available through the NCBI SRA, under BioProject number \href{https://www.ncbi.nlm.nih.gov/bioproject/PRJNA177694}{PRJNA177694}.
+
+\subsubsection*{Gal\'{a}pagos giant tortoise and other tortoises}
+
+RNAseq paired-end data were generated from Illumina TruSeq libraries using the Hi\-Seq\-2000 instrument.
+All the reads are available under BioProject number \href{https://www.ncbi.nlm.nih.gov/bioproject/416050}{PRJNA416050}.
+
+\subsection{Gene selection} \label{ss_matmet_molecular_gene_selection}
+
+Whenever manual annotation of genes was performed, the first step would be to select the set of genes to annotate.
+In the cases in which the target set to annotate is the Degradome, an already curated database is prepared.
+In other cases, genes were chosen after extensive literature mining using our experience in the field of ageing.
+In the case of Lonesome George, more than 3,000 genes were chosen by this method.
+This number includes the more than 600 genes that comprise the Degradome.
+Unless otherwise noted, the sequences of all starting gene sets are taken from the human genome.
+
+\section{Bioinformatics methods} \label{s_matmet_bioinformatics}
+
+\subsection{Genome assembly} \label{ss_matmet_bioinformatics_genome_assembly}
+
+\subsubsection*{Sperm whale}
+
+The combined sequence reads were assembled with the AllPaths software \cite{Butler2008} using default parameter settings.
+This draft assembly was gap-filled with a version of Image \cite{Tsai2010} that was modified for large genomes, and cleaned of contaminating contigs by performing a MegaBLAST \cite{Zhang2000} of the contigs against bacterial and vertebrate genome databases.
+Contigs that displayed the best alignment over 50\% of their length with a different species were removed.
+Using a genome size estimate of 2.8 Gbp, the total raw sequence depth of Illumina reads was > 90X.
+The final sperm whale genome assembly was repeat-masked using WindowMasker \cite{Morgulis2006}.
+
+\subsubsection*{Gal\'{a}pagos giant tortoise}
+
+The assembly of these libraries was performed with the AllPaths algorithm \cite{Butler2008} to yield a draft genome of 64,657 contigs with an \emph{N50} of 74 kb (Table \ref{t_george_statistics}).
+Then, we scaffolded these contigs using Sspace (v3.0) \cite{Boetzer2014a} employing the long-insert mate-pair libraries.
+Finally, we filled the gaps using PBJelly (v15.8.24) \cite{English2012} and the reads obtained from 18 PacBio cells.
+The final assembly (\textsl{CheloAbing 1.0}) was 2.3 Gb long.
+Over this final assembly, we soft-masked repeated regions with RepeatMasker \cite{Smit} using a database of chordate repeated elements (provided by the software) as reference.
+We then aligned the resulting reads to the \textit{C. abingdonii} assembly with BWA (v0.7.5a) \cite{Li2009}.
+Similarly, raw genomic reads from \textit{C. abingdonii} were aligned to \textsl{CheloAbing 1.0} for manual curation purposes.
+
+\begin{figure}[!t]
+	\centering
+	\begin{tikzpicture}[align=center,node distance=2cm]
+	\node (b)[]{};
+	\node (a)[left=4cm of b]{};
+	\node (c)[right=4cm of b]{};
+	\node (180)[input, above=3cm of a]{180 bp-insert paired-end};
+	\node (5)[input, above=2.2cm of b]{5 kb-insert mate-pair};
+	\node (20)[input, above=3cm of c]{20 kb-insert mate-pair};
+	\node (pb)[input, below=0.55cm of a]{18 pacbio cells};
+	\node(allpaths)[software, above=0.8cm of a]{ALLPATHS};
+	\node(sspace)[software, above=0.8cm of c]{Sspace};
+	\node(pbjelly)[software, below=0.5cm of c]{PbJelly};
+	\node(sspace2)[software, below=0.5cm of b]{Sspace};
+	\node(contigs)[midput, above=0.8cm of b]{Assembly N50 = 74 kb};
+	\node(feapb)[output, output, below=3.02cm of a]{PacBio Coords Features};
+	\node(assembly)[output, below=2.98cm of c]{Final Assembly N50 = 1.27 Mb};
+	\draw [inout] (180) -- (allpaths);
+	\draw [inout] (allpaths) -- (contigs);
+	\draw [inout] (contigs) -- (sspace);
+	\draw [inout] (20) -- (sspace);
+	\draw [inout] (5) -| (sspace);
+	\draw [inout] (pb) -- (sspace2);
+	\draw [flow] (sspace) -- (pbjelly);
+	\draw [flow] (pbjelly) -- (sspace2);
+	\draw [inout] (sspace2) |- (feapb);
+	\draw [inout] (sspace2) |- (assembly);
+	\end{tikzpicture}
+	\caption[Assembly process in Lonesome George's project]{\footnotesize Assembly process in Lonesome George's project.}
+	\label{f_assembly_george}
+\end{figure}
+
+\subsection{RNA mapping and assembly} \label{ss_matmet_bioinformatics_rna_assembly}
+
+\subsubsection*{Gal\'{a}pagos giant tortoises}
+
+We aligned RNA-Seq data from \textit{C. abingdonii} blood and \textit{A. gigantea} granuloma to the assembled genome using TopHat (v2.0.14) \cite{Trapnell2009}.
+
+\subsection{Genome completeness assessment} \label{ss_matmet_bioinformatics_genome_completeness}
+
+The relative completeness in terms of expected gene content of the assembled genomes and their annotated gene sets was assessed using the Benchmarking Universal Single-Copy Ortholog (BUSCO) assessment tool \cite{Seppey2019}.
+
+\subsubsection*{Sperm whale}
+
+In the case of the sperm whale, we used the laurasiatheria\_odb9 lineage dataset that contains 6253 BUSCOs (v3.0.0).
+The dependencies used were Augustus v3.2.3, and HMMER v3.1b1 \cite{Eddy2011}.
+
+\subsubsection*{Gal\'{a}pagos giant tortoise}
+
+In this case the program was run from an all-dependencies included Ubuntu virtual machine (available in \href{https://busco-archive.ezlab.org/}{https://busco-archive.ezlab.org/}).
+For this assessment, we used the vertebrata\_odb9 lineage dataset.
+We performed this analysis \textit{de novo} in CH38 human's assembly, to compare between them.
+Additionally, by using the published data of the Mojave dessert tortoise, we increase the scope of the comparison.
+
+\subsection{Genome automatic annotation} \label{ss_matmet_bioinformatics_automatic_annotation}
+
+\subsubsection*{Gal\'{a}pagos giant tortoise}
+
+We performed de novo annotation on the genome assembly of \emph{C. abingdonii} using \emph{MAKER2}, a multi-threaded, parallelized computational tool designed to produce accurate annotations for novel genomes based on a machine-learning approach \cite{Campbell2014}.
+We fed the algorithm with both the \textsl{CheloAbing 1.0} assembly and the RNA-Seq data, as well as reference genome sequences from human and \emph{P. sinensis}.
+We also provided multifasta files of the complete annotated set of human and \emph{P. sinensis} proteins.
+With this input, MAKER2 completed two runs in a Microsoft Azure virtual machine.
+Finally, predicted genes were assigned a putative function as part of the MAKER2 pipeline.
+
+\subsubsection*{EBL-EBI annotation pipeline} \label{sss_matmet_bioinformatics_automatic_annotation_ebi}
+
+In the automatic annotation process of the narwhal and the beluga whale, during my short internship in the European Bioinformatic Institute, I used a different approach.
+In its first step, this method takes advantage of the data repository inside ENSEMBL. Thus, the pipeline automatically searches for all the evidence used in the annotation process.
+The algorithm accepts a unique accession number for the assembly.
+By using the data associated to said number in the SQL databases, it finds and uses any RNASeq information available.
+
+From this point on, a program which works on top of a LSF\nomenclature{LSF}{Load Sharing Facility} (a job scheduler), manages a swarm of scripts, each of which takes care of one part of the annotation process.
+They work on general tasks, such as the masking of the genome or the generation of an index, but also more annotation-related tasks, such as model generation, or comparison among related organisms.
+Finally, by using the main annotation softwares, such as Geneblast or Augustus, and comparing the results between all of them and also with the RNASeq-generated models, a final set is generated.
+This set is then manually revised to check for anomalies that may indicate a poorly performed annotation.
+In addition, the researcher is tasked with controlling the correct performance of the pipeline by checking guiHive, a program designed to graphically show the steps of the annotation, current state, several inputs, outputs and options of each step, and the warnings and errors produced in the annotation. 
+
+\subsection{Manual genome annotation} \label{ss_matmet_manual_annotation}
+
+Manual annotation is largely based on the search for orthologs of our genes of interest in the genome of the species we want to annotate.
+The most commonly used tool for this task is \emph{BLAST}\nomenclature{BLAST}{Basic Local Alignment Search Tool} \cite{Altschul1990}, an alignment algorithm designed to compare different sequences of nucleotides or amino acids.
+This alone would yield a low-quality set of annotated proteins, since, given the own bias of the aligner, there will be some errors in the sequence, specially in the exon-intron junction sequences.
+In order to correct the predicted alignment and assure the proper genetic structure, further steps are required.
+These steps of manual curation can be tedious and error-prone. To make the task easier and safer, we performed all manual annotations using the BATI\nomenclature{BATI}{Blast Annotate Tune and Iterate} algorithm, developed in this laboratory.
+
+The main ideas behind this pipeline are to perform all alignments automatically, to provide a graphical environment to easily correct said alignments, and to summarize all the results in a comprehensive format that allows the user to effortless point out duplicates or new genes.
+This is achieved through four independent programs, that, once initialized, can be simultaneously used by several researchers working in the same set without conflicting each other's work.
+These scripts are written in Perl v5 and can be obtained from our group web site (\href{http://degradome.uniovi.es/downloads.html}{http://degradome.uniovi.es/downloads.html}).
+
+\begin{enumerate}[topsep=1ex,itemsep=-1ex]
+	\item{\texttt{tbex     }} The first script to be executed. It prepares all required files and runs all the \texttt{tblastn} comparisons.
+	\item{\texttt{bgmix    }} Summarizes all the hits from the different \texttt{tblastn} results in one single file.
+	\item{\texttt{bsniffer }} Generates a file per model gene, containing the \texttt{tblastn} result in a more readable format for users to choose.
+	\item{\texttt{genetuner}} Provides a graphical environment in which we can adjust intron-exon junctions and add or remove sequence stretches.
+	\item{\texttt{bgmix    }} Non-redundantly summarizes all the \texttt{tblastn} hits, highlighting those belonging to an annotated gene. This allows the user to quickly find further copies of the genes under study.
+\end{enumerate}
+
+\texttt{tbex} has two functions.
+The first one consists of creating a file containing the necessary data for the pipeline (\textit{i.e.} the genome of the organism we want to annotate, the protein sequence of the genes we are interested in annotate, and, optionally, the cDNA of said sequences, all in fasta format).
+The genome must be indexed. If necessary, the script itself will run \texttt{formatdb} on it.
+Once this is complete, the script will launch an instance of BLAST for each protein sequence we have given it.
+Specifically, the flavour of BLAST used is \texttt{tblastn} (as \texttt{blastall -p tblastn}, which will search the protein sequence given in a translated version of the nucleotidic genomic sequence.
+This flavour was chosen because evolutive pressures on genes are more evident on the protein sequence.
+
+\begin{figure}[!t]
+	\centering
+	\begin{tikzpicture}[align=center,node distance=2cm]
+	\node (b)[]{};
+	\node (a)[left=4cm of b]{};
+	\node (c)[right=4cm of b]{};
+	\node (tbex)[software, above=1.2cm of a]{TBEX};
+	\node (bsniffer)[software, above=1.2cm of b]{BSNIFFER};
+	\node (genetuner)[software, above=2.6cm of c]{GENETUNER};
+	\node (bgmix)[software, above=0.75cm of c]{BGMIX};
+	\node (tbex2)[software, below=0.1cm of b]{TBEX};
+	\node (genes)[input, above=3cm of a]{Gene models};
+	\node (genome)[input, below=1.1cm of a]{Genome to annotate};
+	\node (orpar)[midput, above=2.6cm of b]{Orthologs/Paralogs};
+	\node (add)[midput, below=0.1cm of c]{Additional paralogs?};
+	\node (anno)[output, below=1.3cm of c]{Annotated genes};
+	\draw [flow] (tbex) -- (bsniffer);
+	\draw [flow] (bsniffer) -- (orpar);
+	\draw [flow] (orpar) -- (genetuner);
+	\draw [flow] (genetuner) -- (bgmix);
+	\draw [flow] (bgmix) -- (add);
+	\draw [flow] (tbex2) -- (bsniffer);
+	\draw [inout] (genes) -- (tbex);
+	\draw [inout] (genome) -- (tbex);
+	\draw [inout] (add) -- node [above] {Yes} (tbex2);
+	\draw [inout] (add) -- node [right] {No} (anno);
+	\end{tikzpicture}
+	\caption[Information flux in the execution process of BATI]{\footnotesize Information flux in the execution process of BATI.}
+	\label{f_bati_flow}
+\end{figure}
+
+The program \texttt{bsniffer} generates a file per gene in which the results are reorganized in a more readable way.
+Additionally, the script calculates a score based on how complete, large and good match a hit is.
+Considering all of this, one can choose the best combination of hits, only being restricted by the contigs and not by the \texttt{tblasn} combinations.
+The program will also mark the hits that have already been used in building a gene to prevent their reuse.
+Once the best choice has been made, a predicted model is created and the next gene can be analysed in the same way.
+
+The step run by \texttt{genetuner} provides a graphical interface that allows the user to move around the annotated exons of the gene, and shows the genome to be annotated and its three translated frames in the chosen strand.
+Besides the clearly distinguishable sequences of exons and introns, if the cDNA for the model genes was provided, this will also be available to double-check similarities.
+The aim of this step is to use the interactive view of the chosen alignment and to polish it as much as possible.
+This can be accomplished by correcting the exon-intron junctions, adding or deleting exons, or even splitting or mixing different exons (usually because of a \emph{frameshift}).
+Some of these cases may be tackled by paying attention to the conserved splicing points, but in many other cases it may be helpful to check external information sources such as published works regarding a specific gene, different databases, or related (and already annotated) organisms.
+This step is crucial, as it allows users to improve the annotation in ways that are not accessible during automatic annotation. The program also allows users to note down comments on particular regions. This is very important, since a wrong exon-intron union may be later interpreted as a spurious mutation.
+The graphical interactive interface includes several ways to move around, and several way to edit the current selection.
+Additionally, it allows the writing of warning when needed and the ability to increase or decrease sensitivity locally, as well as to perform different kinds of searches.
+This is the step where the researcher experience is most valuable.
+
+\texttt{bgmix} summarizes all the hits in one file, indicating to which model protein each hit is more similar, and also if it has been used to build a gene already.
+Because of its usefulness, it is usually run twice, first after the \texttt{tbex} step, to have a general idea of the best match to each hit, and once everything is annotated, to check for unused hits, since those can build up a whole gene which can be a duplication or even a new one.
+If this is the case, the protocol is to duplicate the protein sequence file (and, if available, the cDNA) of the duplicated gene, and re-run the whole pipeline.
+Once this result of \texttt{bgmix} has no more obvious hits, we can consider the set of genes of interest annotated.
+
+By using the data sets mentioned in subsection \ref{ss_matmet_molecular_gene_selection} the whole annotation process, including the pertinent comparisons and the final validation using Sanger is summarized in figure \ref{f_annotation_process}.
+
+\begin{figure}[t]
+	\centering
+	\begin{tikzpicture}[align=center,node distance=2cm]
+	\node (b)[]{};
+	\node (a)[left=4cm of b]{};
+	\node (c)[right=4cm of b]{};
+	\node (pub) [input, above=2cm of a] {Published studies};
+	\node (db) [input, above=1.5cm of a] {Databases};
+	\node (cherry) [midput, above=2.1cm of b] {Selected genes};
+	\node (genome) [input, above=2.7cm of c] {Genome};
+	\node (bati) [software, above=1cm of c] {BATI};
+	\node (results) [output, above=0.05cm of c] {Manual annotation results};
+	\node (db2) [input, above=0.05cm of a] {Other species databases};
+	\node (comp) [software, above=0.01cm of b] {Align software};
+	\node (int) [midput, below=1.1cm of a] {Genes of interest};
+	\node (pcr) [software, below=1cm of c] {PCR, Sanger};
+	\node (rna) [software, below=1cm of b] {RNASeq};
+	\node (final) [output, below=2cm of c] {Final set};
+	\draw [inout] (db) -| (cherry);
+	\draw [inout] (cherry) -| (bati);
+	\draw [inout] (genome) -- (bati);
+	\draw [inout] (bati) -- (results);
+	\draw [inout] (db2) -- (comp);
+	\draw [flow] (results) -- (comp);
+	\draw [flow] (comp) -- (int);
+	\draw [flow] (int) -- (rna);
+	\draw [flow] (rna) -- (pcr);
+	\draw [inout] (pcr) -- (final);
+	\end{tikzpicture}
+	\caption[Complete manual annotation process]{\footnotesize Complete manual annotation process, including all the steps for the initial data to the final selection of corroborated genes of interest.}
+	\label{f_annotation_process}
+\end{figure}
+
+When manually annotating a genome, especially in the case of \textit{de novo} genomes, one must consider that some of the results may be artefacts produced by the \textit{de novo} assembly.
+There are multiple causes for this error to appear, \textit{e.g.} absence or reduced coverage of a specific regions of the genome leading us to think that genes may have been lost, or a lot of heterozygous positions concentrated in a region, which may provoke the assembler to assume that they are different regions, hence misidentifying a duplication.
+For this reason, hypotheses that arise from annotations must always be corroborated by other studies in order to be fully reliable.
+Some of these additional tests can range from checking the quality of the specific region we are interested on, or studying RNA-Seq data (if available), to performing PCR amplification and Sanger sequencing of the interesting region. 
+
+\subsection{Expansion of gene families} \label{ss_matmet_bioinformatics_expansion}
+
+We performed several pairwise alignments of the predicted proteins from the automatic annotation to the UniProt \cite{Bateman2019} databases of human and \textit{P. sinensis} proteins using BLAST (v2.6.011) \cite{Altschul1990}.
+Using in-house perl scripts (available in a public repository (\href{https://github.com/vqf/LG}{https://github.com/vqf/LG}), we grouped these sequences into one-to-one, one-to-many, and many-to-many orthologous relationships.
+Only alignments with a coverage of at least 80\% of the longer protein, and with more than 60\% of identity were considered for the analysis.
+Finally, we searched for family expansions specifically present in \textit{C. abingdonii}, by examining the aforementioned groups of orthologs.
+The results were manually curated.
+This way, we constructed extended orthology sets that may contain more than one sequence per species.
+
+\subsection{Positive selection} \label{ss_matmet_bioinformatics_positive_selection}
+
+To search for signatures of selection affecting the predicted set of genes, we used BLAST and in-house perl scripts to pairwise align all available protein sequences from human (\textit{H. sapiens}), mouse (\textit{M. musculus}), dog (\textit{Canis lupus familiaris}), gecko (\textit{Gekko japonicus}), green anole lizard (\textit{A. carolinensis}), python snake (\textit{Python bivittatus}), common garter snake (\textit{Thamnophis sirtalis}), Habu viper (\textit{Trimeresurus mucrosquamatus}), budgerigar (\textit{Melopsittacus undulatus}), zebra finch (\textit{Taeniopygia guttata}), flycatcher (\textit{Ficedula albicollis}), duck (\textit{Anas platyrhynchos}), turkey (\textit{Meleagris gallopavo}), chicken (\textit{G. gallus}), Chinese softshell turtle (\textit{P. sinensis}), green sea turtle (\textit{C. mydas}) and painted turtle (\textit{C. p. bellii}).
+We focused only on those genes with a one-to-one ortholog status in every species, and missing in no more than 3 species (excluding \textit{C. abingdonii}), as described in previous studies \cite{Keane2015}.
+We then aligned each group separately with PRANK v.150803 using the codon model and analysed the alignments with \texttt{codeml} from the PAML package \cite{Yang2007}.
+
+To search for genes with signatures of positive selection affecting \textit{C. abingdonii} genes specifically, we executed two different branch models, M0, with a single $\omega$0 value (where $\omega$ represents the ratio of non-synonymous to synonymous substitutions) for all the branches (nested), and M2a, with a foreground $\omega$2 value exclusive for \textit{C. abingdonii} and a background $\omega$1 value for all the other branches.
+Genes with a high $\omega$2 value ($>$1) and a low $\omega$1 value ($\omega$1$<$0.2 and $\omega$1$\approx\omega$0) in \textit{C. abingdonii}, but not in \textit{P. sinensis} (Table \ref{app_t_positive_selection}) were then considered as candidates to be under positive selection.
+As a control, M2a was repeated using \textit{P. sinensis} as the foreground branch, and no overlapping genes were found in the result.
+Then, we used the M8 branch model to assess the individual importance of every site in these positively selected genes, obtaining a list of sites possibly under selection.
+The equivalent sites were examined in the Aldabra tortoise through alignments, to evaluate which of these important residues were altered (Table \ref{app_t_site_positive_selection}).
+
+\section{Code development}
+
+\subsection{Database management CGI} \label{ss_matmet_code_cgi}
+
+The different scripts, coded in Perl (version > 5.20), and using a CGI\nomenclature{CGI}{Common Gateway Interface} protocol for executing them via web requests, orchestrate the interaction with the user, the creation/edition of the database, and the editing/creating of the final HTML\nomenclature{HTML}{HyperText Markup Language} that will display the website. % (for examples on this set of scripts, check appendix \ref{s_database_management}).
+In parallel, a couple of simple HTML files create the UI%\nomenclature{UI}{User Interface} 
+for the editing of the database and the CGI request for the main set of programs.
+Briefly, the steps of the process would be as follow:
+
+\begin{enumerate}[topsep=1ex,itemsep=-1ex]
+	\item A JSON\nomenclature{JSON}{JavaScrip Object Notation}-build database, containing all the information about the degradome, degradomopathies, protease family, and information related to our laboratory (\textit{e.g.} members, news, software, ...) is taken as input by one script. This JSON is then displayed as a interactive HTML-coded table.
+	\item In this table one can made editions, additions or even deletions. For each of these modifications, there is an appropriate button to execute the pertinent script and perform the desired change.
+	\item The invoked script then creates a copy of the database as it is (to be kept as a security copy), then applies the required changes to the database, and finally calls for the last script.
+	\item This will take the new altered database as an input and build the different parts of the website taking into consideration the changes everywhere (\textit{e.g.} if you add a protease, every line that mentions the number of proteases will change so that the number displayed is increased by 1).
+	\item Ideally, the user that made the modification should now check that everything is in order, since by repeating this process with a new modification will overwrite the saved copy. Ultimately, if even after checking some mistake is spotted and it is too late to recover the data not all will be lost, since an automatic process in the server keeps weekly security copies.
+\end{enumerate}
+
+It is noteworthy that regular queries to the website work in a similar way as step 4, since the information in the JSON file is queried using the AJAX\nomenclature{AJAX}{Asynchronous JavaScript And XML} technology through jQuery, hence being dynamically fetched by request. If the browser lacks JavaScript or if this is disabled, the website will redirect the user to a static table with all the information.
+
+\subsubsection*{Website Public Interface}
+
+The website is built using responsive-by-design technology, which allows the browser to \quotes{rearrange} the different HTML-containers in order to adapt it to the available display.
+Also, by interacting with the displayed information, the user may ask for more details of specific parts.
+By requesting this information interactively and using the aforementioned technologies waiting times for the loading of the different tables is reduced.
+%Examples of this UI, including those regarding its responsiveness to different displays, and the pop-up-delivered information, can be found in the appendix \ref{a_figures}, figures \ref{fig_bootstrap} and \ref{fig_pop-up}.
+
+% Victor me ha parecido más razonable no incluir capturas de pantalla ni trozos de codigo como tal, no me prece que quede muy profesional... Respecto a las imagenes igual se pueden poner en la presentación pero en el texto impreso me parece demasiado, no? Que opinas?
